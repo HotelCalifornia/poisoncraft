@@ -13,7 +13,7 @@ gradlew
 
 #forge-related shenanigans
 forge-*.txt
-LICENSE-fml.txt
+*-fml.txt
 MinecraftForge-*.txt
 
 #IDEA-related shenanigans
