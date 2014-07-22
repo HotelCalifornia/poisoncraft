@@ -1,0 +1,16 @@
+[
+{
+  "modid": "poisoncraft",
+  "name": "PoisonCraft",
+  "description": "Poison your friends!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Hotel_California"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
