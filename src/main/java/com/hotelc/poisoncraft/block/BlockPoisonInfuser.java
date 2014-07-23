@@ -2,6 +2,8 @@ package com.hotelc.poisoncraft.block;
 
 import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -9,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -106,7 +110,9 @@ public class BlockPoisonInfuser extends BlockContainer {
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1),
+                                                                      (double) ((float) z + f2), new ItemStack(itemstack.getItem(),
+                                                                      j1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (double) ((float) this.random.nextGaussian() * f3);
                         entityitem.motionY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
@@ -117,9 +123,33 @@ public class BlockPoisonInfuser extends BlockContainer {
             }
         }
     }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+        double d0 = (double)((float)x + 0.4F + rand.nextFloat() * 0.2F);
+        double d1 = (double)((float)y + 0.7F + rand.nextFloat() * 0.3F);
+        double d2 = (double)((float)z + 0.4F + rand.nextFloat() * 0.2F);
+        world.spawnParticle("smoke", d0, d1, d2, 0.0D, 0.0D, 0.0D);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World world, int x, int y, int z){
+        return com.hotelc.poisoncraft.item.Items.poison_infuser;
+    }
+
+    @Override
+    public boolean hasComparatorInputOverride() {
+        return true;
+    }
+
+    @Override
+    public int getComparatorInputOverride(World world, int x, int y, int z, int i) {
+        return Container.calcRedstoneFromInventory((IInventory) world.getTileEntity(x, y, z));
+    }
 
     @Override
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-        return Items.brewing_stand;
+        return com.hotelc.poisoncraft.item.Items.poison_infuser;
     }
 }
