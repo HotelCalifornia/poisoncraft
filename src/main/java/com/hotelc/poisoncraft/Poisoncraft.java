@@ -5,6 +5,7 @@ import com.hotelc.poisoncraft.item.Items;
 import com.hotelc.poisoncraft.proxy.ClientProxy;
 import com.hotelc.poisoncraft.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -21,7 +22,7 @@ public class Poisoncraft {
     )
     public static CommonProxy commonProxy;
     public static ClientProxy clientProxy;
-    @Mod.Instance
+    @Instance
     public static Poisoncraft instance;
     @EventHandler
     public void init(FMLInitializationEvent event) {
