@@ -1,6 +1,7 @@
 package com.hotelc.poisoncraft.block;
 
 import com.hotelc.poisoncraft.Poisoncraft;
+import com.hotelc.poisoncraft.proxy.ClientProxy;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,7 +11,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -79,8 +79,7 @@ public class BlockPoisonInfuser extends BlockContainer {
         } else {
             TileEntityPoisonInfuser te = (TileEntityPoisonInfuser) world.getTileEntity(x, y, z);
             if (te != null) {
-                //TODO: change the magic number 0 to a constant from a list of GUIIDs
-                player.openGui(Poisoncraft.instance, 0, world, x, y, z);
+                player.openGui(Poisoncraft.instance, ClientProxy.GUI_POISON_INFUSER, world, x, y, z);
             }
             return true;
         }
