@@ -15,6 +15,8 @@ import net.minecraft.tileentity.TileEntity;
  * :3
  */
 public class TileEntityPoisonInfuser extends TileEntity implements ISidedInventory {
+    /** the time remaining for the current operation */
+    private int time;
     private ItemStack inventory[] = new ItemStack[4];
     /** contains the index/indices of the output slot(s)
      *  @see net.minecraft.tileentity.TileEntityBrewingStand#field_145941_a */
@@ -25,6 +27,28 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
 
     /** TIL that the default (no-argument; empty) constructor is implicit */
 
+    @Override
+    public void updateEntity() {
+        if(this.time > 0) {
+            --time;
+            if(this.time == 0) {
+                this.infuse();
+                this.markDirty();
+            }
+        }
+
+    }
+    private boolean canOperate() {
+        /** well, IDEA, you said it could be simplified. */
+        return this.inventory[0] != null && this.inventory[2] != null && ItemPoison.getIngredients().containsKey(this.inventory[0].getItem()) && this.inventory[2].getItem() instanceof ItemFood;
+    }
+    private void infuse() {
+        if(this.canOperate()) {
+            ItemStack ingredient = this.inventory[0];
+
+        }
+    }
+    /** ISidedInventory */
     @Override
     public int getSizeInventory() {
         return this.inventory.length;
