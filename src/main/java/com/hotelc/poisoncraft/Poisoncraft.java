@@ -32,14 +32,14 @@ public class Poisoncraft {
         Items.registerRecipes();
         /** register ingredients with their effects */
         ItemPoison.poisonIngredients();
+        /** register effects with their potions */
+        ItemPoison.poisonEffects();
         /** register gui handlers */
         NetworkRegistry.INSTANCE.registerGuiHandler(Poisoncraft.instance, Poisoncraft.clientProxy);
     }
 }
-/**TODO: TileEntityPoisonInfuser
-/**TODO: BlockPoisonInfuser
-/**TODO: ContainerPoisonInfuser
-/**TODO: GuiPoisonInfuser
-/**TODO: GuiHandler (can be put into the ClientProxy, implementing IGuiHandler, using
- * TODO: a switch() block with the GUI IDs
- */
+/**TODO: TileEntityPoisonInfuser */
+/**TODO: BlockPoisonInfuser */
+/**TODO: ContainerPoisonInfuser */
+/**TODO: GuiPoisonInfuser */
+

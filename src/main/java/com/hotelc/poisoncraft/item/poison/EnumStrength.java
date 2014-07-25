@@ -24,12 +24,20 @@ public enum EnumStrength {
      * @param type the level of strength
      * @return the length of time (in ticks) for which the poison effect will be active.
      */
-    public int getTicksForType(EnumStrength type) {
+    public static int getTicksForType(EnumStrength type) {
         switch (type) {
             case STRENGTH_WEAK  : return 300;
             case STRENGTH_NORMAL: return 600;
             case STRENGTH_STRONG: return 900;
             default             : return   0;
+        }
+    }
+    public static EnumStrength getStrengthForID(int id) {
+        switch (id) {
+            case 0 : return   STRENGTH_WEAK;
+            case 1 : return STRENGTH_NORMAL;
+            case 2 : return STRENGTH_STRONG;
+            default: return null;
         }
     }
 }

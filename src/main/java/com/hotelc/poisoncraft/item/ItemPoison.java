@@ -2,6 +2,7 @@ package com.hotelc.poisoncraft.item;
 
 import com.hotelc.poisoncraft.item.poison.EnumPoison;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  */
 public class ItemPoison extends Item {
     private static Map<Item, EnumPoison> ingredients = new HashMap<Item, EnumPoison>();
+    private static Map<EnumPoison, Potion> effects = new HashMap<EnumPoison, Potion>();
 
     /**
      * Associates ingredients with an effect
@@ -27,4 +29,19 @@ public class ItemPoison extends Item {
         ingredients.put(Items.metal_powder,                            EnumPoison.POISON_SLOW);
     }
     public static Map getIngredients() { return ingredients; }
+    public static void poisonEffects() {
+        effects.put(EnumPoison.POISON_HARM,         Potion.harm);
+        effects.put(EnumPoison.POISON_POISON,     Potion.poison);
+        effects.put(EnumPoison.POISON_WEAK,     Potion.weakness);
+        effects.put(EnumPoison.POISON_BLIND,   Potion.blindness);
+        effects.put(EnumPoison.POISON_TIRED, Potion.digSlowdown);
+        effects.put(EnumPoison.POISON_CONFUSE, Potion.confusion);
+        effects.put(EnumPoison.POISON_HUNGER,     Potion.hunger);
+        effects.put(EnumPoison.POISON_WITHER,     Potion.wither);
+        effects.put(EnumPoison.POISON_SLOW, Potion.moveSlowdown);
+    }
+    public static Map getEffects() { return effects; }
 }
+
+
+

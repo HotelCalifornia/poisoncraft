@@ -24,4 +24,18 @@ public enum EnumPoison {
     public int getID() {
         return this.ID;
     }
+    public static EnumPoison getTypeForID(int id) {
+        switch (id) {
+            case 1: return POISON_HARM;
+            case 2: return POISON_POISON;
+            case 3: return POISON_WEAK;
+            case 4: return POISON_BLIND;
+            case 5: return POISON_TIRED;
+            case 6: return POISON_CONFUSE;
+            case 7: return POISON_HUNGER;
+            case 8: return POISON_WITHER;
+            case 9: return POISON_SLOW;
+            default: return null;
+        }
+    }
 }
