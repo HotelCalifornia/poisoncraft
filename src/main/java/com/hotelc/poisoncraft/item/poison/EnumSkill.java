@@ -19,4 +19,13 @@ public enum EnumSkill {
     public int getSkill() {
         return this.skill;
     }
+    public static EnumSkill getSkillForID(int id) {
+        switch (id) {
+            case 0: return SKILL_SPOILED;
+            case 1: return SKILL_SPOILED;
+            case 2: return SKILL_ODD;
+            case 3: return SKILL_HIDDEN;
+            default:return null;
+        }
+    }
 }

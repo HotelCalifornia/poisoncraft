@@ -1,11 +1,16 @@
 package com.hotelc.poisoncraft.tileentity;
 
+import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.item.ItemPoison;
+import com.hotelc.poisoncraft.item.poison.ItemPoisonedFood;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Field;
 
 /**
  * This file created by Alex Brooke
@@ -26,7 +31,6 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
     private static final int[] inputSlots = new int[] {0, 1, 2};
 
     /** TIL that the default (no-argument; empty) constructor is implicit */
-
     @Override
     public void updateEntity() {
         if(this.time > 0) {
@@ -38,14 +42,56 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
         }
 
     }
+
+    public int getTime() { return this.time; }
+    public void setTime(int time) { this.time = time; }
+
     private boolean canOperate() {
         /** well, IDEA, you said it could be simplified. */
-        return this.inventory[0] != null && this.inventory[2] != null && ItemPoison.getIngredients().containsKey(this.inventory[0].getItem()) && this.inventory[2].getItem() instanceof ItemFood;
+        /** returns true if:
+         *  there is an ingredient and a food
+         *  the ingredient is valid
+         *  the food is valid
+         *  the output slot isn't full
+         */
+        return this.inventory[0] != null && this.inventory[2] != null && ItemPoison.getIngredients().containsKey(this.inventory[0].getItem()) && this.inventory[2].getItem() instanceof ItemFood || this.inventory[3].stackSize >= 0 && this.inventory[3].stackSize < this.getInventoryStackLimit();
     }
+
+    /**
+     * infuses one piece of food with poison per update
+     */
     private void infuse() {
+        //TODO: set the damage on the output ItemStack based on the ingredient, the skill, and the booster item (see below)
         if(this.canOperate()) {
             ItemStack ingredient = this.inventory[0];
-
+            inventory[2].stackSize--;
+            ItemFood temp = (ItemFood)inventory[2].getItem();
+            int boost  = 1;
+            if(inventory[1] != null || inventory[1].stackSize > 0) {
+                //TODO: handle amplifiers
+            }
+            try {
+                /** get the healAmount (saturation) and whether or not dogs like this food */
+                Field f  = ItemFood.class.getDeclaredField("healAmount");
+                Field f1 = ItemFood.class.getDeclaredField("isWolfsFavoriteMeat");
+                /** make them accessible so we can use their values to make the Poisoned food */
+                f.setAccessible(true);
+                f1.setAccessible(true);
+                if(inventory[3] == null || inventory[3].stackSize <= 0) {
+                    inventory[3] = new ItemStack(new ItemPoisonedFood(f.getInt(temp), f1.getBoolean(temp), temp, boost));
+                }
+                else {
+                    inventory[3].stackSize++;
+                }
+            } catch (NoSuchFieldException e) {
+                Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");
+                Poisoncraft.LOGGER.log(Level.WARN, "Please go to www.github.com/HotelCalifornia/poisoncraft for more information about bugs like this.");
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");
+                Poisoncraft.LOGGER.log(Level.WARN, "Please go to www.github.com/HotelCalifornia/poisoncraft for more information about bugs like this.");
+                e.printStackTrace();
+            }
         }
     }
     /** ISidedInventory */

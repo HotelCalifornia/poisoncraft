@@ -2,6 +2,8 @@ package com.hotelc.poisoncraft.container;
 
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -20,6 +22,7 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerPoisonInfuser extends Container {
     private TileEntityPoisonInfuser tile;
+    private int time;
     public ContainerPoisonInfuser(InventoryPlayer inventory, TileEntityPoisonInfuser te) {
         this.tile = te;
         //poison slot
@@ -31,6 +34,7 @@ public class ContainerPoisonInfuser extends Container {
         //output
         this.addSlotToContainer(new Poison(inventory.player, inventory, 3, 78,  57));
         int i;
+        /** add the player inventory slots */
         for(i = 0; i < 3; i++) {
             for(int j = 0; j < 9; j++) {
                 this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -42,8 +46,37 @@ public class ContainerPoisonInfuser extends Container {
     }
     @Override
     public void addCraftingToCrafters(ICrafting crafting) {
-
+        super.addCraftingToCrafters(crafting);
+        crafting.sendProgressBarUpdate(this, 0, this.tile.getTime());
     }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+        for (Object crafter : this.crafters) {
+            ICrafting crafting = (ICrafting) crafter;
+            if (this.time != this.tile.getTime()) {
+                crafting.sendProgressBarUpdate(this, 0, this.tile.getTime());
+            }
+        }
+        this.time = this.tile.getTime();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    /**
+     * this is an odd method; all it seems to do is set tile.time to par2.
+     * my guess is that @param par1 can only ever be 0, because whenever ContainerBrewingStand calls ICrafting#sendProgressBarUpdate, the first int is always 0.
+     * why does what ContainerBrewingStand does matter here?
+     * let's face it: most of the code is the same.
+     */
+    public void updateProgressBar(int par1, int par2) {
+        if(par1 == 0) {
+            this.tile.setTime(par2);
+        }
+    }
+
+    /** uhhh.. let's worry about shift-clicking another time.. hehehe... */
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
