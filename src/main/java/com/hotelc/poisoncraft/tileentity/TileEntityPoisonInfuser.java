@@ -1,6 +1,7 @@
 package com.hotelc.poisoncraft.tileentity;
 
 import com.hotelc.poisoncraft.Poisoncraft;
+import com.hotelc.poisoncraft.entity.PoisonSkillHelper;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.poison.ItemPoisonedFood;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,11 @@ import java.lang.reflect.Field;
 public class TileEntityPoisonInfuser extends TileEntity implements ISidedInventory {
     /** the time remaining for the current operation */
     private int time;
+    /** the player who placed this (owner) */
+    private EntityPlayer owner;
+    /** handles the skill updates to the player */
+    private PoisonSkillHelper skillHelper;
+
     private ItemStack inventory[] = new ItemStack[4];
     /** contains the index/indices of the output slot(s)
      *  @see net.minecraft.tileentity.TileEntityBrewingStand#field_145941_a */
@@ -30,7 +36,13 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
      *  @see net.minecraft.tileentity.TileEntityBrewingStand#field_145947_i */
     private static final int[] inputSlots = new int[] {0, 1, 2};
 
-    /** TIL that the default (no-argument; empty) constructor is implicit */
+    /** TIL that the default (no-argument; empty) constructor is implicit
+     *  however, i need to tell this TE who its owner is, so i can't use that magic :(
+     */
+    public TileEntityPoisonInfuser(EntityPlayer owner) {
+        this.owner = owner;
+        this.skillHelper = PoisonSkillHelper.getSkillHelper(this.owner);
+    }
     @Override
     public void updateEntity() {
         if(this.time > 0) {
@@ -40,7 +52,6 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 this.markDirty();
             }
         }
-
     }
 
     public int getTime() { return this.time; }
@@ -82,6 +93,7 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 }
                 else {
                     inventory[3].stackSize++;
+                    skillHelper.addPoisonOp();
                 }
             } catch (NoSuchFieldException e) {
                 Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");

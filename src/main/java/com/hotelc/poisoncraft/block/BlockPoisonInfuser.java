@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -33,8 +34,17 @@ import java.util.Random;
 public class BlockPoisonInfuser extends BlockContainer {
     private Random random = new Random();
 
+    private EntityPlayer owner;
+
     public BlockPoisonInfuser() {
         super(Material.iron);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+        if(entity instanceof EntityPlayer) {
+            this.owner = (EntityPlayer)entity;
+        }
     }
 
     @Override
@@ -49,7 +59,7 @@ public class BlockPoisonInfuser extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-        return new TileEntityPoisonInfuser();
+        return new TileEntityPoisonInfuser(this.owner);
     }
 
     @Override
