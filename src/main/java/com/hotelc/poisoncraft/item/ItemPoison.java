@@ -28,6 +28,7 @@ public class ItemPoison extends Item {
         ingredients.put(Items.black_meal,                            EnumPoison.POISON_WITHER);
         ingredients.put(Items.metal_powder,                            EnumPoison.POISON_SLOW);
     }
+
     public static Map getIngredients() { return ingredients; }
     public static void poisonEffects() {
         effects.put(EnumPoison.POISON_HARM,         Potion.harm);
@@ -41,6 +42,16 @@ public class ItemPoison extends Item {
         effects.put(EnumPoison.POISON_SLOW, Potion.moveSlowdown);
     }
     public static Map getEffects() { return effects; }
+
+    /**
+     * @param effect the ID of the effect (as according to EnumPoison)
+     * @param skill the ID of the
+     * @param amplifier
+     * @return
+     */
+    public static int calculateDamageFromInputs(int effect, int skill, int amplifier) {
+        return (effect * 100) + (skill * 10) + amplifier;
+    }
 }
 
 

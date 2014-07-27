@@ -64,4 +64,28 @@ public enum EnumPoison {
             default: return null;
         }
     }
+    public static int getIDForType(EnumPoison poison) {
+        switch (poison) {
+            case POISON_HARM:
+                return 1;
+            case POISON_POISON:
+                return 2;
+            case POISON_WEAK:
+                return 3;
+            case POISON_BLIND:
+                return 4;
+            case POISON_TIRED:
+                return 5;
+            case POISON_CONFUSE:
+                return 6;
+            case POISON_HUNGER:
+                return 7;
+            case POISON_WITHER:
+                return 8;
+            case POISON_SLOW:
+                return 9;
+            default:
+                return 0;
+        }
+    }
 }

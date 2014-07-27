@@ -2,6 +2,7 @@ package com.hotelc.poisoncraft;
 
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.Items;
+import com.hotelc.poisoncraft.item.poison.ItemPoisonBooster;
 import com.hotelc.poisoncraft.proxy.ClientProxy;
 import com.hotelc.poisoncraft.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -39,6 +40,8 @@ public class Poisoncraft {
         ItemPoison.poisonIngredients();
         /** register effects with their potions */
         ItemPoison.poisonEffects();
+        /** register booster items with their amplifier */
+        ItemPoisonBooster.boosterIngredients();
         /** register gui handlers */
         NetworkRegistry.INSTANCE.registerGuiHandler(Poisoncraft.instance, Poisoncraft.clientProxy);
         /** create and register event handler */

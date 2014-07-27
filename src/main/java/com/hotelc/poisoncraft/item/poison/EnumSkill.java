@@ -28,4 +28,32 @@ public enum EnumSkill {
             default:return null;
         }
     }
+    public static int getIDForSkill(EnumSkill skill) {
+        switch (skill) {
+            case SKILL_POISON:
+                return 0;
+            case SKILL_SPOILED:
+                return 1;
+            case SKILL_ODD:
+                return 2;
+            case SKILL_HIDDEN:
+                return 3;
+            default:
+                return 4;
+        }
+    }
+    public static EnumSkill getSkillForTimesInfused(int times) {
+        if(times >= 0 && times < 4096) {
+            return EnumSkill.SKILL_POISON;
+        }
+        else if(times >= 4096 && times < 8192) {
+            return EnumSkill.SKILL_SPOILED;
+        }
+        else if(times >= 8192 && times < 12288) {
+            return EnumSkill.SKILL_ODD;
+        }
+        else {
+            return EnumSkill.SKILL_HIDDEN;
+        }
+    }
 }

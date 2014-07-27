@@ -33,24 +33,13 @@ public class ItemPoisonedFood extends ItemFood {
      * the texture name will be used to keep the food looking the same.
      * the skill level determines the display name of the food
      */
-    public ItemPoisonedFood(int saturation, boolean doggyMeat, ItemFood food, int boost) {
+    public ItemPoisonedFood(int saturation, boolean doggyMeat, ItemFood food) {
         super(saturation, doggyMeat);
-        this.amplifier = boost; //this will undoubtedly go through some calculations at some point
         try {
             Method method = Item.class.getDeclaredMethod("getIconString()");
             method.setAccessible(true);
             this.setTextureName((String)method.invoke(food));
-        } catch (NoSuchMethodException e) {
-            Poisoncraft.LOGGER.log(Level.WARN, "ItemPoisonedFood was unable to obtain a texture, defaulting to the porkchop texture.");
-            Poisoncraft.LOGGER.log(Level.WARN, "This is most likely a result of a remapping. Please go to www.github.com/HotelCalifornia/poisoncraft for more info about bugs like this.");
-            e.printStackTrace();
-            setTextureName("minecraft:porkchop_cooked");
-        } catch (InvocationTargetException e) {
-            Poisoncraft.LOGGER.log(Level.WARN, "ItemPoisonedFood was unable to obtain a texture, defaulting to the porkchop texture.");
-            Poisoncraft.LOGGER.log(Level.WARN, "This is most likely a result of a remapping. Please go to www.github.com/HotelCalifornia/poisoncraft for more info about bugs like this.");
-            e.printStackTrace();
-            setTextureName("minecraft:porkchop_cooked");
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             Poisoncraft.LOGGER.log(Level.WARN, "ItemPoisonedFood was unable to obtain a texture, defaulting to the porkchop texture.");
             Poisoncraft.LOGGER.log(Level.WARN, "This is most likely a result of a remapping. Please go to www.github.com/HotelCalifornia/poisoncraft for more info about bugs like this.");
             e.printStackTrace();
@@ -71,27 +60,20 @@ public class ItemPoisonedFood extends ItemFood {
     protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
         /** no point in doing any of the calculations if the end result doesn't compute because it's client-side */
         if(!world.isRemote) {
+            /** get the individual digits of the damage value */
             char[] charDigits = Integer.toString(stack.getItemDamage()).toCharArray();
             int[] digits = new int[charDigits.length];
             for (int i = 0; i < charDigits.length; i++) {
                 digits[i] = Integer.parseInt(Character.toString(charDigits[i]));
             }
+            /** get the potion info */
             EnumPoison potionID = EnumPoison.getTypeForID(digits[0]);
-            /** digits[1] is the skill, and that's handled in the constructor.. err somewhere other than this method :) */
-            EnumStrength duration = EnumStrength.getStrengthForID(digits[2]);
             Potion potion = EnumPoison.getPotionForType(potionID);
-            int ticks = 0;
-            switch (duration) {
-                case STRENGTH_WEAK:
-                    ticks = EnumStrength.getTicksForType(EnumStrength.STRENGTH_WEAK);
-                    break;
-                case STRENGTH_NORMAL:
-                    ticks = EnumStrength.getTicksForType(EnumStrength.STRENGTH_NORMAL);
-                    break;
-                case STRENGTH_STRONG:
-                    ticks = EnumStrength.getTicksForType(EnumStrength.STRENGTH_STRONG);
-                    break;
-            }
+            /** digits[1] is the skill, and that's handled in the constructor.. err somewhere other than this method :) */
+            /** get the duration */
+            EnumStrength duration = EnumStrength.getStrengthForID(digits[2]);
+            int ticks = EnumStrength.getTicksForType(duration);
+            /** apply the effect */
             player.addPotionEffect(new PotionEffect(potion.getId(), ticks, this.amplifier));
         }
     }

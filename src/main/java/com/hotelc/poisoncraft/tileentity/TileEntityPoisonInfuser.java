@@ -3,7 +3,7 @@ package com.hotelc.poisoncraft.tileentity;
 import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.entity.PoisonSkillHelper;
 import com.hotelc.poisoncraft.item.ItemPoison;
-import com.hotelc.poisoncraft.item.poison.ItemPoisonedFood;
+import com.hotelc.poisoncraft.item.poison.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
@@ -25,6 +25,8 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
     private int time;
     /** the player who placed this (owner) */
     private EntityPlayer owner;
+    /** the skill associated with this TileEntity's owner */
+    private EnumSkill skill;
     /** handles the skill updates to the player */
     private PoisonSkillHelper skillHelper;
 
@@ -72,15 +74,17 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
      * infuses one piece of food with poison per update
      */
     private void infuse() {
-        //TODO: set the damage on the output ItemStack based on the ingredient, the skill, and the booster item (see below)
         if(this.canOperate()) {
+            this.skill = EnumSkill.getSkillForTimesInfused(skillHelper.getNumFoodsPoisoned());
             ItemStack ingredient = this.inventory[0];
             inventory[2].stackSize--;
             ItemFood temp = (ItemFood)inventory[2].getItem();
-            int boost  = 1;
+            EnumStrength boost  = EnumStrength.STRENGTH_DEFAULT;
             if(inventory[1] != null || inventory[1].stackSize > 0) {
-                //TODO: handle amplifiers
+                boost = (EnumStrength)ItemPoisonBooster.getBoosters().get(inventory[1].getItem()); //..why doesn't Map#get(K key) return type V? oh java...
             }
+            int damage = ItemPoison.calculateDamageFromInputs(EnumPoison.getIDForType((EnumPoison)ItemPoison.getIngredients().get(ingredient.getItem())),
+                                                              EnumSkill.getIDForSkill(this.skill), EnumStrength.getIDforStrength(boost));
             try {
                 /** get the healAmount (saturation) and whether or not dogs like this food */
                 Field f  = ItemFood.class.getDeclaredField("healAmount");
@@ -89,17 +93,13 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 f.setAccessible(true);
                 f1.setAccessible(true);
                 if(inventory[3] == null || inventory[3].stackSize <= 0) {
-                    inventory[3] = new ItemStack(new ItemPoisonedFood(f.getInt(temp), f1.getBoolean(temp), temp, boost));
+                    inventory[3] = new ItemStack(new ItemPoisonedFood(f.getInt(temp), f1.getBoolean(temp), temp), damage);
                 }
                 else {
                     inventory[3].stackSize++;
                     skillHelper.addPoisonOp();
                 }
-            } catch (NoSuchFieldException e) {
-                Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");
-                Poisoncraft.LOGGER.log(Level.WARN, "Please go to www.github.com/HotelCalifornia/poisoncraft for more information about bugs like this.");
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");
                 Poisoncraft.LOGGER.log(Level.WARN, "Please go to www.github.com/HotelCalifornia/poisoncraft for more information about bugs like this.");
                 e.printStackTrace();
@@ -185,8 +185,8 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 /** Poison slot */
                 return ItemPoison.getIngredients().containsKey(stack.getItem());
             case 1:
-                //TODO: for the amplifier
-                return false;
+                /** Booster slot */
+                return ItemPoisonBooster.getBoosters().containsKey(stack.getItem());
             case 2:
                 /** Food slot */
                 return stack.getItem() instanceof ItemFood;

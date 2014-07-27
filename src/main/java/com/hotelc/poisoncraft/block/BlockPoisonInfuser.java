@@ -100,11 +100,11 @@ public class BlockPoisonInfuser extends BlockContainer {
                            int i) {
         TileEntity tileentity = world.getTileEntity(x, y, z);
 
-        if (tileentity instanceof TileEntityBrewingStand) {
-            TileEntityBrewingStand tileentitybrewingstand = (TileEntityBrewingStand) tileentity;
+        if (tileentity instanceof TileEntityPoisonInfuser) {
+            TileEntityPoisonInfuser te = (TileEntityPoisonInfuser) tileentity;
 
-            for (int i1 = 0; i1 < tileentitybrewingstand.getSizeInventory(); ++i1) {
-                ItemStack itemstack = tileentitybrewingstand.getStackInSlot(i1);
+            for (int i1 = 0; i1 < te.getSizeInventory(); ++i1) {
+                ItemStack itemstack = te.getStackInSlot(i1);
 
                 if (itemstack != null) {
                     float f = this.random.nextFloat() * 0.8F + 0.1F;

@@ -26,6 +26,7 @@ public class PoisonSkillHelper implements IExtendedEntityProperties {
     public static PoisonSkillHelper getSkillHelper(Entity entity) {
         return entity != null ? (PoisonSkillHelper) entity.getExtendedProperties("PoisonSkill") : null;
     }
+    public int getNumFoodsPoisoned() { return this.foodsPoisoned; }
     public void addPoisonOp() {
         foodsPoisoned ++;
     }

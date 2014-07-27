@@ -1,6 +1,7 @@
 package com.hotelc.poisoncraft.container;
 
 import com.hotelc.poisoncraft.item.ItemPoison;
+import com.hotelc.poisoncraft.item.poison.ItemPoisonBooster;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -76,7 +77,9 @@ public class ContainerPoisonInfuser extends Container {
         }
     }
 
-    /** uhhh.. let's worry about shift-clicking another time.. hehehe... */
+    /** uhhh.. let's worry about shift-clicking another time.. hehehe...
+     * for now, it's vital that we do not shift click, or else we crash :)
+     */
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
@@ -94,7 +97,7 @@ public class ContainerPoisonInfuser extends Container {
         public boolean isItemValid(ItemStack stack) {
             switch(this.slotIndex) {
                 case 0 : return ItemPoison.getIngredients().containsKey(stack.getItem()); //poison slot
-                case 1 : return false; //TODO: make ItemPoisonBooster or something
+                case 1 : return ItemPoisonBooster.getBoosters().containsKey(stack.getItem()); //booster slot
                 case 2 : return stack.getItem() instanceof ItemFood; //food slot
                 case 3 : return false; //output
                 default: return false; //anyfink else, mate?
