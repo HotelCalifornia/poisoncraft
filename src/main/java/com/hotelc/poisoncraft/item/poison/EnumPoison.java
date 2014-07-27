@@ -1,5 +1,8 @@
 package com.hotelc.poisoncraft.item.poison;
 
+import com.hotelc.poisoncraft.item.ItemPoison;
+import net.minecraft.potion.Potion;
+
 /**
  * This file created by Alex Brooke
  * please seek the author's permission before
@@ -35,6 +38,29 @@ public enum EnumPoison {
             case 7: return POISON_HUNGER;
             case 8: return POISON_WITHER;
             case 9: return POISON_SLOW;
+            default: return null;
+        }
+    }
+    public static Potion getPotionForType(EnumPoison potionID) {
+        switch (potionID) {
+            case POISON_HARM:
+                return (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_HARM);
+            case POISON_POISON:
+                return (Potion)  ItemPoison.getEffects().get(EnumPoison.POISON_POISON);
+            case POISON_WEAK:
+                return (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_WEAK);
+            case POISON_BLIND:
+                return (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_HARM);
+            case POISON_TIRED:
+                return (Potion)   ItemPoison.getEffects().get(EnumPoison.POISON_TIRED);
+            case POISON_CONFUSE:
+                return (Potion) ItemPoison.getEffects().get(EnumPoison.POISON_CONFUSE);
+            case POISON_HUNGER:
+                return (Potion)  ItemPoison.getEffects().get(EnumPoison.POISON_HUNGER);
+            case POISON_WITHER:
+                return (Potion)  ItemPoison.getEffects().get(EnumPoison.POISON_WITHER);
+            case POISON_SLOW:
+                return (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_SLOW);
             default: return null;
         }
     }

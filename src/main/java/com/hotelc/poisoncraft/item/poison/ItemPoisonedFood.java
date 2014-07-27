@@ -60,7 +60,7 @@ public class ItemPoisonedFood extends ItemFood {
 
     /**
      * This method is different from onEaten, probably because it occurs about a second or so after onEaten.
-     * I will not implement onEaten here, because this class should be as similar to
+     * I will not implement onEaten here, because this class should be as similar to the food as possible
      * @param stack the stack of food
      * @param world it's the whole saaaaame woooorld
      * @param player what a playa
@@ -69,46 +69,17 @@ public class ItemPoisonedFood extends ItemFood {
      */
     @Override
     protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
-                    /** no point in doing any of the calculations if the end result doesn't compute because it's client-side */
-                    if(!world.isRemote) {
-                        char[] charDigits = Integer.toString(stack.getItemDamage()).toCharArray();
-                        int[] digits = new int[charDigits.length];
-                        for (int i = 0; i < charDigits.length; i++) {
-                            digits[i] = Integer.parseInt(Character.toString(charDigits[i]));
-                        }
-                        EnumPoison potionID = EnumPoison.getTypeForID(digits[0]);
-                        /** digits[1] is the skill, and that's handled in the constructor.. err somewhere other than this method :) */
-                        EnumStrength duration = EnumStrength.getStrengthForID(digits[2]);
-                        Potion potion = null;
-                        switch (potionID) {
-                            case POISON_HARM:
-                                potion = (Potion)     ItemPoison.getEffects().get(EnumPoison.POISON_HARM);
-                                break;
-                            case POISON_POISON:
-                                potion = (Potion)   ItemPoison.getEffects().get(EnumPoison.POISON_POISON);
-                                break;
-                            case POISON_WEAK:
-                                potion = (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_WEAK);
-                                break;
-                            case POISON_BLIND:
-                                potion = (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_HARM);
-                                break;
-                            case POISON_TIRED:
-                                potion = (Potion)   ItemPoison.getEffects().get(EnumPoison.POISON_TIRED);
-                                break;
-                            case POISON_CONFUSE:
-                                potion = (Potion) ItemPoison.getEffects().get(EnumPoison.POISON_CONFUSE);
-                                break;
-                            case POISON_HUNGER:
-                                potion = (Potion)  ItemPoison.getEffects().get(EnumPoison.POISON_HUNGER);
-                    break;
-                case POISON_WITHER:
-                    potion = (Potion)  ItemPoison.getEffects().get(EnumPoison.POISON_WITHER);
-                    break;
-                case POISON_SLOW:
-                    potion = (Potion)    ItemPoison.getEffects().get(EnumPoison.POISON_SLOW);
-                    break;
+        /** no point in doing any of the calculations if the end result doesn't compute because it's client-side */
+        if(!world.isRemote) {
+            char[] charDigits = Integer.toString(stack.getItemDamage()).toCharArray();
+            int[] digits = new int[charDigits.length];
+            for (int i = 0; i < charDigits.length; i++) {
+                digits[i] = Integer.parseInt(Character.toString(charDigits[i]));
             }
+            EnumPoison potionID = EnumPoison.getTypeForID(digits[0]);
+            /** digits[1] is the skill, and that's handled in the constructor.. err somewhere other than this method :) */
+            EnumStrength duration = EnumStrength.getStrengthForID(digits[2]);
+            Potion potion = EnumPoison.getPotionForType(potionID);
             int ticks = 0;
             switch (duration) {
                 case STRENGTH_WEAK:
