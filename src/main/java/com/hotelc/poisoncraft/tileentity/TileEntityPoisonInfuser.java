@@ -4,6 +4,7 @@ import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.entity.PoisonSkillHelper;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.poison.*;
+import com.hotelc.poisoncraft.util.Accessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
@@ -87,15 +88,16 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                                                               EnumSkill.getIDForSkill(this.skill), EnumStrength.getIDforStrength(boost));
             try {
                 /** get the healAmount (saturation) and whether or not dogs like this food */
-                Field f  = ItemFood.class.getDeclaredField("healAmount");
-                Field f1 = ItemFood.class.getDeclaredField("isWolfsFavoriteMeat");
+                Field f  = Accessor.getField(ItemFood.class, "healAmount");
+                Field f1 = Accessor.getField(ItemFood.class, "isWolfsFavoriteMeat");
                 /** make them accessible so we can use their values to make the Poisoned food */
-                f.setAccessible(true);
-                f1.setAccessible(true);
+                Accessor.access(f);
+                Accessor.access(f1);
                 if(inventory[3] == null || inventory[3].stackSize <= 0) {
                     inventory[3] = new ItemStack(new ItemPoisonedFood(f.getInt(temp), f1.getBoolean(temp), temp), damage);
                 }
                 else {
+                    /** add one to the output, increment the number of poisons made by the owner */
                     inventory[3].stackSize++;
                     skillHelper.addPoisonOp();
                 }

@@ -2,6 +2,7 @@ package com.hotelc.poisoncraft.item.poison;
 
 import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.item.ItemPoison;
+import com.hotelc.poisoncraft.util.Accessor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -36,9 +37,9 @@ public class ItemPoisonedFood extends ItemFood {
     public ItemPoisonedFood(int saturation, boolean doggyMeat, ItemFood food) {
         super(saturation, doggyMeat);
         try {
-            Method method = Item.class.getDeclaredMethod("getIconString()");
-            method.setAccessible(true);
-            this.setTextureName((String)method.invoke(food));
+            Method method = Accessor.getMethod(ItemFood.class, "getIconString()");
+            Accessor.access(method);
+            this.setTextureName((String)Accessor.invoke(method, food));
         } catch (Exception e) {
             Poisoncraft.LOGGER.log(Level.WARN, "ItemPoisonedFood was unable to obtain a texture, defaulting to the porkchop texture.");
             Poisoncraft.LOGGER.log(Level.WARN, "This is most likely a result of a remapping. Please go to www.github.com/HotelCalifornia/poisoncraft for more info about bugs like this.");
