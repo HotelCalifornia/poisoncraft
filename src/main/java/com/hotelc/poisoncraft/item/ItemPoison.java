@@ -45,9 +45,9 @@ public class ItemPoison extends Item {
 
     /**
      * @param effect the ID of the effect (as according to EnumPoison)
-     * @param skill the ID of the
-     * @param amplifier
-     * @return
+     * @param skill the ID of the skill (as according to EnumSkill)
+     * @param amplifier the id of the amplifier (as according to EnumStrength)
+     * @return the 3-digit damage value to be used by the ItemS tack of the poisoned food
      */
     public static int calculateDamageFromInputs(int effect, int skill, int amplifier) {
         return (effect * 100) + (skill * 10) + amplifier;

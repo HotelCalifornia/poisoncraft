@@ -1,19 +1,15 @@
 package com.hotelc.poisoncraft.item.poison;
 
 import com.hotelc.poisoncraft.Poisoncraft;
-import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.util.Accessor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -24,8 +20,6 @@ import java.lang.reflect.Method;
  * :3
  */
 public class ItemPoisonedFood extends ItemFood {
-    private int amplifier;
-
     /**
      * constructor for a new hunk of poisoned food
      * @param saturation how many haunches this will return to the player
@@ -75,7 +69,7 @@ public class ItemPoisonedFood extends ItemFood {
             EnumStrength duration = EnumStrength.getStrengthForID(digits[2]);
             int ticks = EnumStrength.getTicksForType(duration);
             /** apply the effect */
-            player.addPotionEffect(new PotionEffect(potion.getId(), ticks, this.amplifier));
+            player.addPotionEffect(new PotionEffect(potion.getId(), ticks, 1));
         }
     }
     @Override
