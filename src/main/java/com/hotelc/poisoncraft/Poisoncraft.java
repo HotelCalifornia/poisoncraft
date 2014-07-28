@@ -1,5 +1,6 @@
 package com.hotelc.poisoncraft;
 
+import com.hotelc.poisoncraft.gui.Handler;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.Items;
 import com.hotelc.poisoncraft.item.poison.ItemPoisonBooster;
@@ -10,6 +11,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +23,7 @@ public class Poisoncraft {
     public static final String VERSION = "1.0";
     public static final Logger LOGGER = LogManager.getLogger(Poisoncraft.MODID);
 
+    public static IGuiHandler guiHandler;
     public static event.EventHandler eventHandler;
     @SidedProxy(
             clientSide = "com.hotelc.poisoncraft.proxy.ClientProxy",
@@ -42,8 +45,9 @@ public class Poisoncraft {
         ItemPoison.poisonEffects();
         /** register booster items with their amplifier */
         ItemPoisonBooster.boosterIngredients();
-        /** register gui handlers */
-        NetworkRegistry.INSTANCE.registerGuiHandler(Poisoncraft.instance, Poisoncraft.clientProxy);
+        /** register gui handler */
+        guiHandler = new Handler();
+        NetworkRegistry.INSTANCE.registerGuiHandler(Poisoncraft.instance, guiHandler);
         /** create and register event handler */
         eventHandler = new event.EventHandler();
         eventHandler.register();
