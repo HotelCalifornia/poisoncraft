@@ -24,7 +24,7 @@ public class Poisoncraft {
     public static final Logger LOGGER = LogManager.getLogger(Poisoncraft.MODID);
 
     public static IGuiHandler guiHandler;
-    public static event.EventHandler eventHandler;
+    public static com.hotelc.poisoncraft.event.EventHandler eventHandler;
     @SidedProxy(
             clientSide = "com.hotelc.poisoncraft.proxy.ClientProxy",
             serverSide = "com.hotelc.poisoncraft.proxy.CommonProxy"
@@ -49,7 +49,7 @@ public class Poisoncraft {
         guiHandler = new Handler();
         NetworkRegistry.INSTANCE.registerGuiHandler(Poisoncraft.instance, guiHandler);
         /** create and register event handler */
-        eventHandler = new event.EventHandler();
+        eventHandler = new com.hotelc.poisoncraft.event.EventHandler();
         eventHandler.register();
     }
 }

@@ -1,4 +1,4 @@
-package event;
+package com.hotelc.poisoncraft.event;
 
 import com.hotelc.poisoncraft.entity.PoisonSkillHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
