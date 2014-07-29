@@ -1,10 +1,12 @@
 package com.hotelc.poisoncraft.event;
 
-import com.hotelc.poisoncraft.entity.PoisonSkillHelper;
+import com.hotelc.poisoncraft.entity.PoisonSkillStats;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 /**
  * This file created by Alex Brooke
@@ -20,7 +22,14 @@ public class EventHandler {
     @SubscribeEvent
     public void onEntityConstructing(EntityEvent.EntityConstructing event) {
         if(event.entity instanceof EntityPlayer) {
-            PoisonSkillHelper.init(event.entity);
+            PoisonSkillStats.init(event.entity);
         }
+    }
+    @SubscribeEvent
+    public void onPlayerClone(PlayerEvent.Clone event) {
+        PoisonSkillStats eep = (PoisonSkillStats)event.original.getExtendedProperties(PoisonSkillStats.IDENTIFIER);
+        NBTTagCompound nbt = new NBTTagCompound();
+        eep.saveNBTData(nbt);
+        event.entity.getExtendedProperties(PoisonSkillStats.IDENTIFIER).loadNBTData(nbt);
     }
 }

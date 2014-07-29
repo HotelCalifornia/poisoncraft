@@ -1,7 +1,7 @@
 package com.hotelc.poisoncraft.tileentity;
 
 import com.hotelc.poisoncraft.Poisoncraft;
-import com.hotelc.poisoncraft.entity.PoisonSkillHelper;
+import com.hotelc.poisoncraft.entity.PoisonSkillStats;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.poison.*;
 import com.hotelc.poisoncraft.util.Accessor;
@@ -29,7 +29,7 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
     /** the skill associated with this TileEntity's owner */
     private EnumSkill skill;
     /** handles the skill updates to the player */
-    private PoisonSkillHelper skillHelper;
+    private PoisonSkillStats skillHelper;
 
     private ItemStack inventory[] = new ItemStack[4];
     /** contains the index/indices of the output slot(s)
@@ -44,7 +44,7 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
      */
     public TileEntityPoisonInfuser(EntityPlayer owner) {
         this.owner = owner;
-        this.skillHelper = PoisonSkillHelper.getSkillHelper(this.owner);
+        this.skillHelper = PoisonSkillStats.getSkillHelper(this.owner);
     }
     @Override
     public void updateEntity() {
