@@ -24,12 +24,14 @@ public class PoisonSkillStats implements IExtendedEntityProperties {
     public static void init(Entity entity) {
         entity.registerExtendedProperties("PoisonSkill", new PoisonSkillStats());
     }
-    public static PoisonSkillStats getSkillHelper(Entity entity) {
+    public static PoisonSkillStats getSkillStats(Entity entity) {
         return entity != null ? (PoisonSkillStats) entity.getExtendedProperties(IDENTIFIER) : null;
     }
     public int getNumFoodsPoisoned() { return this.foodsPoisoned; }
     public void addPoisonOp() {
-        foodsPoisoned ++;
+        if(!(foodsPoisoned >= 12288)) {
+            foodsPoisoned++;
+        }
     }
 
     @Override

@@ -24,13 +24,10 @@ import java.lang.reflect.Field;
 public class TileEntityPoisonInfuser extends TileEntity implements ISidedInventory {
     /** the time remaining for the current operation */
     private int time;
-    /** the player who placed this (owner) */
-    private EntityPlayer owner;
-    /** the skill associated with this TileEntity's owner */
-    private EnumSkill skill;
     /** handles the skill updates to the player */
     private PoisonSkillStats skillHelper;
-
+    /** the owner */
+    public EntityPlayer owner;
     private ItemStack inventory[] = new ItemStack[4];
     /** contains the index/indices of the output slot(s)
      *  @see net.minecraft.tileentity.TileEntityBrewingStand#field_145941_a */
@@ -38,13 +35,15 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
     /** contains the index/indices of the input slot(s)
      *  @see net.minecraft.tileentity.TileEntityBrewingStand#field_145947_i */
     private static final int[] inputSlots = new int[] {0, 1, 2};
+    /** used to validate the existence of the input items during operation, to prevent cheating */
 
     /** TIL that the default (no-argument; empty) constructor is implicit
      *  however, i need to tell this TE who its owner is, so i can't use that magic :(
      */
     public TileEntityPoisonInfuser(EntityPlayer owner) {
+        /** gets the skill stats for the player who placed this TE */
+        this.skillHelper = PoisonSkillStats.getSkillStats(owner);
         this.owner = owner;
-        this.skillHelper = PoisonSkillStats.getSkillHelper(this.owner);
     }
     @Override
     public void updateEntity() {
@@ -54,7 +53,15 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 this.infuse();
                 this.markDirty();
             }
+            else if(!this.canOperate()) {
+                this.time = 0;
+                this.markDirty();
+            }
         }
+        else if(this.canOperate()) {
+            this.time = 400;
+        }
+        super.updateEntity();
     }
 
     public int getTime() { return this.time; }
@@ -76,7 +83,8 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
      */
     private void infuse() {
         if(this.canOperate()) {
-            this.skill = EnumSkill.getSkillForTimesInfused(skillHelper.getNumFoodsPoisoned());
+            /** the skill associated with this TileEntity's owner */
+            EnumSkill skill = EnumSkill.getSkillForTimesInfused(skillHelper.getNumFoodsPoisoned());
             ItemStack ingredient = this.inventory[0];
             inventory[2].stackSize--;
             ItemFood temp = (ItemFood)inventory[2].getItem();
@@ -85,7 +93,7 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 boost = (EnumStrength)ItemPoisonBooster.getBoosters().get(inventory[1].getItem()); //..why doesn't Map#get(K key) return type V? oh java...
             }
             int damage = ItemPoison.calculateDamageFromInputs(EnumPoison.getIDForType((EnumPoison)ItemPoison.getIngredients().get(ingredient.getItem())),
-                                                              EnumSkill.getIDForSkill(this.skill), EnumStrength.getIDforStrength(boost));
+                                                              EnumSkill.getIDForSkill(skill), EnumStrength.getIDforStrength(boost));
             try {
                 /** get the healAmount (saturation) and whether or not dogs like this food */
                 Field f  = Accessor.getField(ItemFood.class, "healAmount");

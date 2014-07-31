@@ -85,6 +85,7 @@ public class ContainerPoisonInfuser extends Container {
     public boolean canInteractWith(EntityPlayer player) {
         return this.tile.isUseableByPlayer(player);
     }
+
     static class Poison extends Slot {
         private EntityPlayer player;
         private int slotIndex;
