@@ -2,15 +2,13 @@ package com.hotelc.poisoncraft.gui;
 
 import com.hotelc.poisoncraft.container.ContainerPoisonInfuser;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
+import com.hotelc.poisoncraft.util.Helper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * This file created by Alex Brooke
@@ -22,10 +20,12 @@ import java.util.UUID;
 @SuppressWarnings("unchecked")
 public class GuiPoisonInfuser extends GuiContainer {
     private TileEntityPoisonInfuser tile;
+    private EntityPlayer owner;
     public int numPoisons;
     public GuiPoisonInfuser(InventoryPlayer playerInv, TileEntityPoisonInfuser tile) {
         super(new ContainerPoisonInfuser(playerInv, tile));
         this.tile = tile;
+        this.owner = Helper.getPlayerFromUUID(tile.getOwner());
     }
 
     @Override
@@ -40,15 +40,11 @@ public class GuiPoisonInfuser extends GuiContainer {
         this.fontRendererObj.drawString(Integer.toString(numPoisons), this.xSize - 76, this.ySize - 106, 4210752); //number of poisons
         /** write the IGN of the owner */
         int colour = 0xff690000; //red by default (offline)
-        ArrayList<UUID> uuids = new ArrayList<UUID>();
-        for(EntityPlayer ep : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-            uuids.add(ep.getUniqueID());
-        }
-        if(uuids.contains(tile.owner.getUniqueID())) {
-            colour = 0xff006909; //green if the player is on the list (online)
+        if(Helper.isPlayerOnline(this.owner)) {
+            colour = 0xff006909; //green if online
         }
         this.fontRendererObj.drawString(I18n.format("container.poison.owner"), this.xSize - 76, this.ySize - 76, 4210752); //"Name"
-        this.fontRendererObj.drawString(tile.owner.getDisplayName(), this.xSize - 76, this.ySize - 100, colour); //player name
+        this.fontRendererObj.drawString(this.owner.getDisplayName(), this.xSize - 76, this.ySize - 100, colour); //player name
     }
 
     @Override

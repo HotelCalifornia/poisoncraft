@@ -1,7 +1,7 @@
 package com.hotelc.poisoncraft.block;
 
 import com.hotelc.poisoncraft.Poisoncraft;
-import com.hotelc.poisoncraft.proxy.ClientProxy;
+import com.hotelc.poisoncraft.gui.Handler;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,7 +58,9 @@ public class BlockPoisonInfuser extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-        return new TileEntityPoisonInfuser(this.owner);
+        TileEntityPoisonInfuser te = new TileEntityPoisonInfuser();
+        te.setOwner(this.owner.getUniqueID());
+        return te;
     }
 
     @Override
@@ -88,7 +90,7 @@ public class BlockPoisonInfuser extends BlockContainer {
         } else {
             TileEntityPoisonInfuser te = (TileEntityPoisonInfuser) world.getTileEntity(x, y, z);
             if (te != null) {
-                player.openGui(Poisoncraft.instance, ClientProxy.GUI_POISON_INFUSER, world, x, y, z);
+                player.openGui(Poisoncraft.instance, Handler.GUI_POISON_INFUSER, world, x, y, z);
             }
             return true;
         }

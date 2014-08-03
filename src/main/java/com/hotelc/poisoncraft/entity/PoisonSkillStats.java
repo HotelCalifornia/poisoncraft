@@ -1,5 +1,8 @@
 package com.hotelc.poisoncraft.entity;
 
+import com.hotelc.poisoncraft.net.PacketHandler;
+import com.hotelc.poisoncraft.net.message.MessagePoisonInfuser;
+import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -28,10 +31,13 @@ public class PoisonSkillStats implements IExtendedEntityProperties {
         return entity != null ? (PoisonSkillStats) entity.getExtendedProperties(IDENTIFIER) : null;
     }
     public int getNumFoodsPoisoned() { return this.foodsPoisoned; }
-    public void addPoisonOp() {
+    public void addPoisonOp(TileEntityPoisonInfuser sender) {
         if(!(foodsPoisoned >= 12288)) {
             foodsPoisoned++;
         }
+        PacketHandler.INSTANCE.sendToDimension(new MessagePoisonInfuser(foodsPoisoned,
+                                         sender.xCoord, sender.yCoord, sender.zCoord),
+                                           sender.getWorldObj().provider.dimensionId);
     }
 
     @Override
@@ -46,6 +52,11 @@ public class PoisonSkillStats implements IExtendedEntityProperties {
 
     @Override
     public void init(Entity entity, World world) {
+        /**
+         * handled in onEntityConstructing
+         * @see com.hotelc.poisoncraft.event.EventHandler#onEntityConstructing(
+         *      net.minecraftforge.event.entity.EntityEvent.EntityConstructing)
+         */
 
     }
 }

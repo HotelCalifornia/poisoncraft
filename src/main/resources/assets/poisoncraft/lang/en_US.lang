@@ -5,6 +5,8 @@ item.metal_powder.name=Metal Powder
 item.rotten_carrot.name=Rotten Carrot
 
 container.poison.name=Poison Infuser
+container.poison.num=Number of poisons made
+container.poison.owner=Owner
 
 skill.poisoned=Poisoned
 skill.spoiled=Spoiled

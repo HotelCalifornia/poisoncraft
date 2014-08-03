@@ -5,6 +5,7 @@ import com.hotelc.poisoncraft.entity.PoisonSkillStats;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.poison.*;
 import com.hotelc.poisoncraft.util.Accessor;
+import com.hotelc.poisoncraft.util.Helper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
@@ -13,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 /**
  * This file created by Alex Brooke
@@ -27,7 +29,12 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
     /** handles the skill updates to the player */
     private PoisonSkillStats skillHelper;
     /** the owner */
-    public EntityPlayer owner;
+    private UUID owner;
+    public void setOwner(UUID uuid) {
+        this.owner = uuid;
+        this.skillHelper = PoisonSkillStats.getSkillStats(Helper.getPlayerFromUUID(uuid));
+    }
+    public UUID getOwner() { return this.owner; }
     private ItemStack inventory[] = new ItemStack[4];
     /** contains the index/indices of the output slot(s)
      *  @see net.minecraft.tileentity.TileEntityBrewingStand#field_145941_a */
@@ -39,12 +46,10 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
 
     /** TIL that the default (no-argument; empty) constructor is implicit
      *  however, i need to tell this TE who its owner is, so i can't use that magic :(
+     *  EDIT: hehe, i can use the magic now :D
+     *  <strikethrough>Monsieur</strikethrough> Great Lord Almighty Ivorius (Ivorforce)
+     *  told me not to use constructor injection
      */
-    public TileEntityPoisonInfuser(EntityPlayer owner) {
-        /** gets the skill stats for the player who placed this TE */
-        this.skillHelper = PoisonSkillStats.getSkillStats(owner);
-        this.owner = owner;
-    }
     @Override
     public void updateEntity() {
         if(this.time > 0) {
@@ -107,7 +112,7 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 else {
                     /** add one to the output, increment the number of poisons made by the owner */
                     inventory[3].stackSize++;
-                    skillHelper.addPoisonOp();
+                    skillHelper.addPoisonOp(this);
                 }
             } catch (Exception e) {
                 Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");

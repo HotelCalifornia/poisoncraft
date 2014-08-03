@@ -4,6 +4,7 @@ import com.hotelc.poisoncraft.gui.Handler;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.Items;
 import com.hotelc.poisoncraft.item.poison.ItemPoisonBooster;
+import com.hotelc.poisoncraft.net.PacketHandler;
 import com.hotelc.poisoncraft.proxy.ClientProxy;
 import com.hotelc.poisoncraft.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -51,6 +52,8 @@ public class Poisoncraft {
         /** create and register event handler */
         eventHandler = new com.hotelc.poisoncraft.event.EventHandler();
         eventHandler.register();
+        /** create a network channel and register packets on the channel */
+        PacketHandler.init();
     }
 }
 
