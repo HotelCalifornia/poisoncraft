@@ -17,14 +17,8 @@ import net.minecraft.client.gui.GuiScreen;
  */
 public class MessagePoisonInfuser implements IMessage, IMessageHandler<MessagePoisonInfuser, IMessage> {
     private int numPoisoned;
-    public int x;
-    public int y;
-    public int z;
-    public MessagePoisonInfuser(int numPoisoned, int x, int y, int z) {
+    public MessagePoisonInfuser(int numPoisoned) {
         this.numPoisoned = numPoisoned;
-        this.x = x;
-        this.y = y;
-        this.z = z;
     }
 
     @Override

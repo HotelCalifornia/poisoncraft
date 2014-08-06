@@ -35,9 +35,8 @@ public class PoisonSkillStats implements IExtendedEntityProperties {
         if(!(foodsPoisoned >= 12288)) {
             foodsPoisoned++;
         }
-        PacketHandler.INSTANCE.sendToDimension(new MessagePoisonInfuser(foodsPoisoned,
-                                         sender.xCoord, sender.yCoord, sender.zCoord),
-                                           sender.getWorldObj().provider.dimensionId);
+        PacketHandler.INSTANCE.sendToDimension(new MessagePoisonInfuser(foodsPoisoned),
+                                            sender.getWorldObj().provider.dimensionId);
     }
 
     @Override
