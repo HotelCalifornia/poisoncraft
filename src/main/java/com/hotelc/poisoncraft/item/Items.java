@@ -1,6 +1,5 @@
 package com.hotelc.poisoncraft.item;
 
-import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.item.poison.ingredient.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
