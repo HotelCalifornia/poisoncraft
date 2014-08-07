@@ -1,0 +1,13 @@
+item.black_meal.name=Black Bonemeal
+item.blaze_eye.name=Blaze Eye
+item.warm_milk.name=Bucket of Warm Milk
+item.metal_powder.name=Metal Powder
+item.rotten_carrot.name=Rotten Carrot
+
+container.poison.name=Poison Infuser
+container.poison.num=Number of poisons made
+container.poison.owner=Owner
+
+skill.poisoned=Poisoned
+skill.spoiled=Spoiled
+skill.odd=Odd
