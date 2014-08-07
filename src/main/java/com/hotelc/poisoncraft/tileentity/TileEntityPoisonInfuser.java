@@ -1,19 +1,15 @@
 package com.hotelc.poisoncraft.tileentity;
 
-import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.entity.PoisonSkillStats;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.poison.*;
-import com.hotelc.poisoncraft.util.Accessor;
 import com.hotelc.poisoncraft.util.Helper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import org.apache.logging.log4j.Level;
 
-import java.lang.reflect.Field;
 import java.util.UUID;
 
 /**
@@ -104,25 +100,13 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
             }
             int damage = ItemPoison.calculateDamageFromInputs(EnumPoison.getIDForType((EnumPoison)ItemPoison.getIngredients().get(ingredient.getItem())),
                                                               EnumSkill.getIDForSkill(skill), EnumStrength.getIDforStrength(boost));
-            try {
-                /** get the healAmount (saturation) and whether or not dogs like this food */
-                Field f  = Accessor.getField(ItemFood.class, "healAmount");
-                Field f1 = Accessor.getField(ItemFood.class, "isWolfsFavoriteMeat");
-                /** make them accessible so we can use their values to make the Poisoned food */
-                Accessor.access(f);
-                Accessor.access(f1);
-                if(inventory[3] == null || inventory[3].stackSize <= 0) {
-                    inventory[3] = new ItemStack(new ItemPoisonedFood(f.getInt(temp), f1.getBoolean(temp), temp), damage);
-                }
-                else {
-                    /** add one to the output, increment the number of poisons made by the owner */
-                    inventory[3].stackSize++;
-                    skillHelper.addPoisonOp(this);
-                }
-            } catch (Exception e) {
-                Poisoncraft.LOGGER.log(Level.WARN, "TileEntityPoisonInfuser unable to infuse, likely due to a mapping change.");
-                Poisoncraft.LOGGER.log(Level.WARN, "Please go to www.github.com/HotelCalifornia/poisoncraft for more information about bugs like this.");
-                e.printStackTrace();
+            if(inventory[3] == null || inventory[3].stackSize <= 0) {
+                inventory[3] = new ItemStack(new ItemPoisonedFood(temp.func_150905_g(inventory[2]), temp.isWolfsFavoriteMeat(), temp), damage);
+            }
+            else {
+                /** add one to the output, increment the number of poisons made by the owner */
+                inventory[3].stackSize++;
+                skillHelper.addPoisonOp(this);
             }
         }
     }
