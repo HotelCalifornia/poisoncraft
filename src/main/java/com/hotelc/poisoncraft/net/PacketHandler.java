@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 public class PacketHandler {
     public static SimpleNetworkWrapper INSTANCE;
     public static void init() {
-        INSTANCE  = NetworkRegistry.INSTANCE.newSimpleChannel("Poisoncraft");
+        INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("Poisoncraft");
         INSTANCE.registerMessage(MessagePoisonInfuser.class, MessagePoisonInfuser.class, 0, Side.CLIENT);
     }
 }
