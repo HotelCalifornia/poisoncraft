@@ -1,5 +1,6 @@
 package com.hotelc.poisoncraft;
 
+import com.hotelc.poisoncraft.block.Blocks;
 import com.hotelc.poisoncraft.gui.Handler;
 import com.hotelc.poisoncraft.item.ItemPoison;
 import com.hotelc.poisoncraft.item.Items;
@@ -38,8 +39,11 @@ public class Poisoncraft {
     public void init(FMLInitializationEvent event) {
         /** register items */
         Items.registerItems();
+        /** register blocks */
+        Blocks.registerBlocks();
         /** register recipes */
         Items.registerRecipes();
+        Blocks.registerRecipes();
         /** register ingredients with their effects */
         ItemPoison.poisonIngredients();
         /** register effects with their potions */

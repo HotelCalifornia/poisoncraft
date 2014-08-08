@@ -20,8 +20,6 @@ public class Items {
     public static final Item warm_milk     = new ItemBucketWarmMilk();
     public static final Item metal_powder  = new    ItemMetalPowder();
     public static final Item black_meal    = new  ItemBlackBonemeal();
-    /** others */
-    public static final Item poison_infuser= new  ItemPoisonInfuser();
     public static void registerItems() {
         /** ingredients */
         GameRegistry.registerItem(blaze_eye,             "blaze_eye");
@@ -29,19 +27,8 @@ public class Items {
         GameRegistry.registerItem(warm_milk,             "warm_milk");
         GameRegistry.registerItem(metal_powder,       "metal_powder");
         GameRegistry.registerItem(black_meal,           "black_meal");
-        /** others */
-        GameRegistry.registerItem(poison_infuser,   "poison_infuser");
     }
     public static void registerRecipes() {
-        /** shaped recipes */
-        GameRegistry.addRecipe(
-                new ItemStack(poison_infuser, 1),
-                "xyx", " y ", " z ",
-                'x', net.minecraft.init.Items.glass_bottle,
-                'y', net.minecraft.init.Items.blaze_rod,
-                'z', net.minecraft.init.Items.cauldron
-        );
-
         /** shapeless recipes */
         GameRegistry.addShapelessRecipe(new ItemStack(blaze_eye, 2), new ItemStack(net.minecraft.init.Items.blaze_powder, 1), new ItemStack(net.minecraft.init.Items.spider_eye, 1));
         GameRegistry.addShapelessRecipe(new ItemStack(rotten_carrot, 1), new ItemStack(net.minecraft.init.Items.golden_carrot, 1), new ItemStack(net.minecraft.init.Items.fermented_spider_eye, 1));

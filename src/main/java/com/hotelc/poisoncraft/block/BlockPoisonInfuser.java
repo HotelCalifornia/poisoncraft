@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * This file created by Alex Brooke
@@ -33,7 +34,7 @@ import java.util.Random;
 public class BlockPoisonInfuser extends BlockContainer {
     private Random random = new Random();
 
-    private EntityPlayer owner;
+    private UUID owner;
 
     public BlockPoisonInfuser() {
         super(Material.iron);
@@ -42,7 +43,7 @@ public class BlockPoisonInfuser extends BlockContainer {
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
         if(entity instanceof EntityPlayer) {
-            this.owner = (EntityPlayer)entity;
+            this.owner = entity.getUniqueID();
         }
     }
 
@@ -57,9 +58,9 @@ public class BlockPoisonInfuser extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int p_149915_2_) {
         TileEntityPoisonInfuser te = new TileEntityPoisonInfuser();
-        te.setOwner(this.owner.getUniqueID());
+        te.setOwner(this.owner);
         return te;
     }
 
@@ -145,7 +146,7 @@ public class BlockPoisonInfuser extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World world, int x, int y, int z){
-        return com.hotelc.poisoncraft.item.Items.poison_infuser;
+        return com.hotelc.poisoncraft.block.Blocks.poison_infuser;
     }
 
     @Override
@@ -160,6 +161,6 @@ public class BlockPoisonInfuser extends BlockContainer {
 
     @Override
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-        return com.hotelc.poisoncraft.item.Items.poison_infuser;
+        return com.hotelc.poisoncraft.block.Blocks.poison_infuser;
     }
 }
