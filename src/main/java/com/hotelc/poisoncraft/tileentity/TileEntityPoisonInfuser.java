@@ -69,19 +69,26 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
     public void setTime(int time) { this.time = time; }
 
     private boolean canOperate() {
-        /** well, IDEA, you said it could be simplified. */
         /** returns true if:
          *  there is an ingredient and a food
          *  the ingredient is valid
          *  the food is valid
          *  the output slot isn't full
          */
-        return
-                this.inventory[0] != null
-                        && this.inventory[2] != null
-                        && ItemPoison.getIngredients().containsKey(this.inventory[0].getItem())
-                        && this.inventory[2].getItem() instanceof ItemFood || this.inventory[3].stackSize >= 0
-                        && this.inventory[3].stackSize < this.getInventoryStackLimit();
+        if(this.inventory[0] != null && this.inventory[2] != null) {
+            if(ItemPoison.getIngredients().containsKey(this.inventory[0].getItem())) {
+                if(this.inventory[2].getItem() instanceof ItemFood) {
+                    if(this.inventory[2].stackSize > 0 && this.inventory[0].stackSize > 0) {
+                        if(this.inventory[3] != null) {
+                            if(this.inventory[3].stackSize < this.getInventoryStackLimit()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
