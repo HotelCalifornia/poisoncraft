@@ -3,11 +3,9 @@ package com.hotel_c.poisoncraft.block;
 import com.hotel_c.poisoncraft.Poisoncraft;
 import com.hotel_c.poisoncraft.gui.Handler;
 import com.hotel_c.poisoncraft.tileentity.TileEntityPoisonInfuser;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -24,7 +22,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * This file created by Alex Brooke
@@ -33,10 +30,8 @@ import java.util.UUID;
  * 'Do you know Java? Because your method body is sexy'
  * :3
  */
-public class BlockPoisonInfuser extends BlockContainer implements ITileEntityProvider {
+public class BlockPoisonInfuser extends Block implements ITileEntityProvider {
     private Random random = new Random();
-
-    private UUID owner;
 
     public BlockPoisonInfuser() {
         super(Material.iron);
@@ -45,7 +40,8 @@ public class BlockPoisonInfuser extends BlockContainer implements ITileEntityPro
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
         if(entity instanceof EntityPlayer) {
-            this.owner = entity.getUniqueID();
+            TileEntityPoisonInfuser te = (TileEntityPoisonInfuser)world.getTileEntity(x, y, z);
+            te.setOwner(entity.getUniqueID());
         }
     }
 
@@ -56,14 +52,12 @@ public class BlockPoisonInfuser extends BlockContainer implements ITileEntityPro
 
     @Override
     public int getRenderType() {
-        return RenderingRegistry.getNextAvailableRenderId();
+        return Poisoncraft.instance.BLOCKPOISONINFUSER_RENDER;
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int p_149915_2_) {
-        TileEntityPoisonInfuser te = new TileEntityPoisonInfuser();
-        te.setOwner(this.owner);
-        return te;
+        return new TileEntityPoisonInfuser();
     }
 
     @Override

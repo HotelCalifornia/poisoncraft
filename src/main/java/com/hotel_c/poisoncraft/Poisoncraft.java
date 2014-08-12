@@ -8,6 +8,7 @@ import com.hotel_c.poisoncraft.item.poison.ItemPoisonBooster;
 import com.hotel_c.poisoncraft.net.PacketHandler;
 import com.hotel_c.poisoncraft.proxy.CommonProxy;
 import com.hotel_c.poisoncraft.tileentity.TileEntityPoisonInfuser;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -26,6 +27,7 @@ public class Poisoncraft {
     public static final String MODID = "poisoncraft";
     public static final String VERSION = "1.0";
     public static final Logger LOGGER = LogManager.getLogger(Poisoncraft.MODID);
+    public final int BLOCKPOISONINFUSER_RENDER = RenderingRegistry.getNextAvailableRenderId();
 
     public static IGuiHandler guiHandler;
     public static com.hotel_c.poisoncraft.event.EventHandler eventHandler;
