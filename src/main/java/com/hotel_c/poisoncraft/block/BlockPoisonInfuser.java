@@ -39,7 +39,7 @@ public class BlockPoisonInfuser extends Block implements ITileEntityProvider {
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
-        if(entity instanceof EntityPlayer) {
+        if(entity instanceof EntityPlayer && world.getTileEntity(x, y, z) != null) {
             TileEntityPoisonInfuser te = (TileEntityPoisonInfuser)world.getTileEntity(x, y, z);
             te.setOwner(entity.getUniqueID());
         }

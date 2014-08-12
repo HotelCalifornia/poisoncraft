@@ -1,6 +1,6 @@
 package com.hotel_c.poisoncraft.event;
 
-import com.hotel_c.poisoncraft.block.ItemBlockPoisonInfuser;
+import com.hotel_c.poisoncraft.item.ItemBlockPoisonInfuser;
 import com.hotel_c.poisoncraft.entity.PoisonSkillStats;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.command.CommandGive;

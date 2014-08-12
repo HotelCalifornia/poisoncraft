@@ -1,4 +1,4 @@
-package com.hotel_c.poisoncraft.block;
+package com.hotel_c.poisoncraft.item;
 
 import com.hotel_c.poisoncraft.Poisoncraft;
 import net.minecraft.block.Block;

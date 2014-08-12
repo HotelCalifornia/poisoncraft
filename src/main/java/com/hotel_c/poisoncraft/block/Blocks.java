@@ -1,5 +1,6 @@
 package com.hotel_c.poisoncraft.block;
 
+import com.hotel_c.poisoncraft.item.ItemBlockPoisonInfuser;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
