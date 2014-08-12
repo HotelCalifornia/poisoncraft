@@ -3,10 +3,12 @@ package com.hotelc.poisoncraft.block;
 import com.hotelc.poisoncraft.Poisoncraft;
 import com.hotelc.poisoncraft.gui.Handler;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +33,7 @@ import java.util.UUID;
  * 'Do you know Java? Because your method body is sexy'
  * :3
  */
-public class BlockPoisonInfuser extends BlockContainer {
+public class BlockPoisonInfuser extends BlockContainer implements ITileEntityProvider {
     private Random random = new Random();
 
     private UUID owner;
@@ -54,7 +56,7 @@ public class BlockPoisonInfuser extends BlockContainer {
 
     @Override
     public int getRenderType() {
-        return 25;
+        return RenderingRegistry.getNextAvailableRenderId();
     }
 
     @Override

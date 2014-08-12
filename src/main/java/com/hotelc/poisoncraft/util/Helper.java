@@ -1,5 +1,6 @@
 package com.hotelc.poisoncraft.util;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
@@ -16,6 +17,9 @@ import java.util.UUID;
 @SuppressWarnings("unchecked")
 public class Helper {
     public static EntityPlayer getPlayerFromUUID(UUID uuid) {
+        if(MinecraftServer.getServer().getConfigurationManager() == null) {
+            return Minecraft.getMinecraft().thePlayer;
+        }
         for(EntityPlayer ep : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
             if(ep.getUniqueID().equals(uuid)) {
                 return ep;
@@ -23,9 +27,10 @@ public class Helper {
         }
         return null;
     }
-    public static boolean isPlayerOnline(EntityPlayer player) {
+    public static boolean isPlayerOnline(UUID player) {
+        if(MinecraftServer.getServer().getConfigurationManager() == null) return true;
         for (EntityPlayer ep : (ArrayList<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-            if(ep.getUniqueID().equals(player.getUniqueID())) {
+            if(ep != null && ep.getUniqueID().equals(player)) {
                 return true;
             }
         }

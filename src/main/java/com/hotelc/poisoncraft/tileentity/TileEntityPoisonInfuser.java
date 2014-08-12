@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.UUID;
@@ -116,6 +117,14 @@ public class TileEntityPoisonInfuser extends TileEntity implements ISidedInvento
                 skillHelper.addPoisonOp(this);
             }
         }
+    }
+    @Override
+    public void writeToNBT(NBTTagCompound nbt) {
+        nbt.setString("owner", this.owner.toString());
+    }
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        this.owner = UUID.fromString(compound.getString("owner"));
     }
     /** ISidedInventory */
     @Override

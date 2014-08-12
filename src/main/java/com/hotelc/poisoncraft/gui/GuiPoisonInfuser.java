@@ -5,10 +5,11 @@ import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
 import com.hotelc.poisoncraft.util.Helper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.UUID;
 
 /**
  * This file created by Alex Brooke
@@ -20,12 +21,12 @@ import org.lwjgl.opengl.GL11;
 @SuppressWarnings("unchecked")
 public class GuiPoisonInfuser extends GuiContainer {
     private TileEntityPoisonInfuser tile;
-    private EntityPlayer owner;
+    private UUID owner;
     public int numPoisons;
     public GuiPoisonInfuser(InventoryPlayer playerInv, TileEntityPoisonInfuser tile) {
         super(new ContainerPoisonInfuser(playerInv, tile));
         this.tile = tile;
-        this.owner = Helper.getPlayerFromUUID(tile.getOwner());
+        this.owner = tile.getOwner();
     }
 
     @Override
@@ -44,7 +45,7 @@ public class GuiPoisonInfuser extends GuiContainer {
             colour = 0xff006909; //green if online
         }
         this.fontRendererObj.drawString(I18n.format("container.poison.owner"), this.xSize - 76, this.ySize - 76, 4210752); //"Name"
-        this.fontRendererObj.drawString(this.owner.getDisplayName(), this.xSize - 76, this.ySize - 100, colour); //player name
+        this.fontRendererObj.drawString(Helper.getPlayerFromUUID(this.owner).getDisplayName(), this.xSize - 76, this.ySize - 100, colour); //player name
     }
 
     @Override

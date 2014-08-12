@@ -1,6 +1,6 @@
 package com.hotelc.poisoncraft.gui;
 
-import com.hotelc.poisoncraft.block.BlockPoisonInfuser;
+import com.hotelc.poisoncraft.container.ContainerPoisonInfuser;
 import com.hotelc.poisoncraft.tileentity.TileEntityPoisonInfuser;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +24,7 @@ public class Handler implements IGuiHandler {
         else {
             switch (ID) {
                 case GUI_POISON_INFUSER:
-                    return new BlockPoisonInfuser();
+                    return new ContainerPoisonInfuser(player.inventory, (TileEntityPoisonInfuser)world.getTileEntity(x, y, z));
                 default:
                     return null;
             }
