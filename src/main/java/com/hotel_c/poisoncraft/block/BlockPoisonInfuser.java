@@ -139,10 +139,10 @@ public class BlockPoisonInfuser extends BlockContainer implements ITileEntityPro
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-        double d0 = (double)((float)x + 0.4F + rand.nextFloat() * 0.2F);
-        double d1 = (double)((float)y + 0.7F + rand.nextFloat() * 0.3F);
-        double d2 = (double)((float)z + 0.4F + rand.nextFloat() * 0.2F);
-        world.spawnParticle("smoke", d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        double dx = (double)((float)x + 0.4F + rand.nextFloat() * 0.2F);
+        double dy = (double)((float)y + 0.7F + rand.nextFloat() * 0.3F);
+        double dz = (double)((float)z + 0.4F + rand.nextFloat() * 0.2F);
+        world.spawnParticle("smoke", dx, dy, dz, 0.0D, 0.0D, 0.0D);
     }
 
     @Override

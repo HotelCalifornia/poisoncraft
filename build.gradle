@@ -24,7 +24,7 @@ archivesBaseName = "poisoncraft"
 minecraft {
     version = "1.7.10-10.13.0.1187"
     if(file('../run/assets').exists()) {
-		assetDir = "..run/assets"
+		assetDir = "../run/assets"
 	} else {
 		assetDir = "assets"
 	}

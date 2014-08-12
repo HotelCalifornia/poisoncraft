@@ -13,6 +13,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -36,7 +37,7 @@ public class Poisoncraft {
     @Instance
     public static Poisoncraft instance;
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void preinit(FMLPreInitializationEvent event) {
         /** register items */
         Items.registerItems();
         /** register blocks */
@@ -50,6 +51,13 @@ public class Poisoncraft {
         ItemPoison.poisonEffects();
         /** register booster items with their amplifier */
         ItemPoisonBooster.boosterIngredients();
+        /** register renderer bullshit */
+        commonProxy.registerRenderers();
+        /** register TileEntities */
+        GameRegistry.registerTileEntity(TileEntityPoisonInfuser.class, "poison_infuser");
+    }
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
         /** register gui handler */
         guiHandler = new Handler();
         NetworkRegistry.INSTANCE.registerGuiHandler(Poisoncraft.instance, guiHandler);
@@ -58,10 +66,6 @@ public class Poisoncraft {
         eventHandler.register();
         /** create a network channel and register packets on the channel */
         PacketHandler.init();
-        /** register renderer bullshit */
-        commonProxy.registerRenderers();
-        /** register TileEntities */
-        GameRegistry.registerTileEntity(TileEntityPoisonInfuser.class, "poison_infuser");
     }
 }
 
