@@ -1,12 +1,16 @@
 package com.hotelc.poisoncraft.event;
 
+import com.hotelc.poisoncraft.block.ItemBlockPoisonInfuser;
 import com.hotelc.poisoncraft.entity.PoisonSkillStats;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.command.CommandGive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 /**
  * This file created by Alex Brooke
@@ -31,5 +35,20 @@ public class EventHandler {
         NBTTagCompound nbt = new NBTTagCompound();
         eep.saveNBTData(nbt);
         event.entity.getExtendedProperties(PoisonSkillStats.IDENTIFIER).loadNBTData(nbt);
+    }
+    @SubscribeEvent
+    public void onItemCrafted(ItemCraftedEvent event) {
+        if(event.crafting.getItem() instanceof ItemBlockPoisonInfuser) {
+            NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setString("owner", event.player.getUniqueID().toString());
+            event.crafting.setTagCompound(nbt);
+        }
+    }
+    @SubscribeEvent
+    public void onChatCommand(CommandEvent event) {
+        if(event.command instanceof CommandGive) {
+            CommandGive cmd = (CommandGive)event.command;
+            cmd.get
+        }
     }
 }

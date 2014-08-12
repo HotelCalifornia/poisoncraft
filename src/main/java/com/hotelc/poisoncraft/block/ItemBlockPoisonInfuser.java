@@ -17,4 +17,5 @@ public class ItemBlockPoisonInfuser extends ItemBlock {
         setUnlocalizedName("poison_infuser");
         setTextureName(Poisoncraft.MODID + ":poison_infuser");
     }
+
 }

@@ -2,6 +2,8 @@ package com.hotelc.poisoncraft.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.ArrayList;
@@ -35,5 +37,11 @@ public class Helper {
             }
         }
         return false;
+    }
+    public static NBTTagCompound getTagCompound(ItemStack stack) {
+        if(stack.getTagCompound() == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        return stack.getTagCompound();
     }
 }
