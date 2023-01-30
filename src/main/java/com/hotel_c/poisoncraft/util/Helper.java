@@ -1,3 +1,13 @@
+/*
+ * @author "Hannah Brooke <hannah@mail.yttrium.io>" a.k.a hotel, HotelCalifornia, hotel_california
+ *
+ * Copyright (c) 2014.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.hotel_c.poisoncraft.util;
 
 import net.minecraft.client.Minecraft;
@@ -9,13 +19,6 @@ import net.minecraft.server.MinecraftServer;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/**
- * This file created by Alex Brooke
- * please seek the author's permission before
- * distributing this software.
- * 'Do you know Java? Because your method body is sexy'
- * :3
- */
 @SuppressWarnings("unchecked")
 public class Helper {
     public static EntityPlayer getPlayerFromUUID(UUID uuid) {
